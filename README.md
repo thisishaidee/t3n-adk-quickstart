@@ -27,7 +27,7 @@ See screenshots in this repo for proof of each step.
 ### 3. `tenant.contracts.register()` payload rejected by server — missing `script_name`
 - **Expected:** `register({ tail, version, wasm })` succeeds, per the "Register your TEE contract" docs
 - **Actual:** `RpcError: Invalid action request: missing field 'script_name'`
-- **Investigation:** inspected the live `register()` method source directly — it only reads `tail`, `version`, and `wasm` from its input and does not construct or send a `script_name` field anywhere. Manually adding `script_name` to the call input had no effect, since the function doesn't forward unrecognized fields.
+- **Investigation:** inspected the live `register()` method source directly — it only reads `tail`, `version`, and `wasm` from its input and does not construct or send a `script_name` field anywhere. Manually adding `script_name` to the call input had no effect, since the function doesn't forward unrecognized fields. Confirmed this isn't a funding/balance issue: `tenant.token.getUsage()` shows a healthy available balance (20,000,000,000, credit_exhausted: false)..
 - **Conclusion:** this is a server/SDK version mismatch, not fixable from the client side. Reported in Terminal3's dev Telegram.
 - **Impact:** blocks contract registration for every developer following the walkthrough exactly as written — meaning Invoke and Test (steps 4–5) are also blocked downstream
 
